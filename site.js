@@ -34,6 +34,7 @@ function initQuestCanvas() {
     y: Math.random() * height,
     vx: (Math.random() - 0.5) * 0.28,
     vy: (Math.random() - 0.5) * 0.28,
+    phase: Math.random() * Math.PI * 2,
   }));
 
   let flash = null;
@@ -90,9 +91,10 @@ function initQuestCanvas() {
     }
 
     nodes.forEach((n) => {
-      ctx.fillStyle = 'rgba(74,51,36,0.55)';
+      const pulse = 0.5 + 0.5 * Math.sin(performance.now() / 900 + n.phase);
+      ctx.fillStyle = `rgba(74,51,36,${0.4 + pulse * 0.3})`;
       ctx.beginPath();
-      ctx.arc(n.x, n.y, 1.8, 0, Math.PI * 2);
+      ctx.arc(n.x, n.y, 1.4 + pulse * 0.9, 0, Math.PI * 2);
       ctx.fill();
     });
 
@@ -122,39 +124,6 @@ function initQuestCanvas() {
   frame();
 }
 
-const LOG_TEMPLATES = [
-  'ACCESS_REQUEST node-{n} :: verifying',
-  'AUTH_TOKEN validated :: session ok',
-  'ANOMALY flagged :: node-{n}',
-  'ACCESS_DENIED :: unauthorized attempt',
-  'SESSION rotated :: node-{n}',
-  'SCAN complete :: 0 breaches',
-  'IDENTITY verified :: node-{n}',
-  'WATCHING :: perimeter clear',
-];
-function randomLogLine() {
-  const t = LOG_TEMPLATES[Math.floor(Math.random() * LOG_TEMPLATES.length)];
-  return t.replace('{n}', String(Math.floor(Math.random() * 90 + 10)).padStart(2, '0'));
-}
-
-function initHudConsole() {
-  const el = document.getElementById('hud-console');
-  if (!el) return;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let lines = [randomLogLine(), randomLogLine(), randomLogLine()];
-  const render = () => {
-    el.innerHTML = lines.map((l, i) => `<div class="line${i === lines.length - 1 ? ' latest' : ''}">${l}</div>`).join('');
-  };
-  render();
-  if (!reduceMotion) {
-    setInterval(() => {
-      lines.push(randomLogLine());
-      if (lines.length > 4) lines.shift();
-      render();
-    }, 2200);
-  }
-}
-
 function initReticle() {
   const el = document.getElementById('quest-reticle');
   if (!el) return;
@@ -177,7 +146,6 @@ function initReticle() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initQuestCanvas();
-  initHudConsole();
   initReticle();
 
   // Inject thief SVG into every mount point (supports a nested .thief-icon target)
