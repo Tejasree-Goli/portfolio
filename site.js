@@ -12,10 +12,92 @@ const THIEF_SVG = `
   <text x="83" y="97" font-size="15" text-anchor="middle" fill="var(--amber)" font-family="monospace">$</text>
 </svg>`;
 
+function initQuestCanvas() {
+  const canvas = document.getElementById('quest-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let width, height;
+  const mouse = { x: null, y: null };
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    width = canvas.width = rect.width;
+    height = canvas.height = rect.height;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const count = Math.max(18, Math.min(50, Math.floor(width / 26)));
+  const nodes = Array.from({ length: count }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    vx: (Math.random() - 0.5) * 0.28,
+    vy: (Math.random() - 0.5) * 0.28,
+  }));
+
+  const stage = canvas.parentElement.closest('.hero') || canvas.parentElement;
+  stage.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  stage.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+  function frame() {
+    ctx.clearRect(0, 0, width, height);
+
+    nodes.forEach((n) => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > width) n.vx *= -1;
+      if (n.y < 0 || n.y > height) n.vy *= -1;
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 118) {
+          ctx.strokeStyle = `rgba(185,120,43,${0.16 * (1 - dist / 118)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+      if (mouse.x !== null) {
+        const dx = nodes[i].x - mouse.x, dy = nodes[i].y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          ctx.strokeStyle = `rgba(185,120,43,${0.32 * (1 - dist / 150)})`;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    nodes.forEach((n) => {
+      ctx.fillStyle = 'rgba(74,51,36,0.55)';
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    if (!reduceMotion) requestAnimationFrame(frame);
+  }
+  frame();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Inject thief SVG into every mount point
+  initQuestCanvas();
+
+  // Inject thief SVG into every mount point (supports a nested .thief-icon target)
   document.querySelectorAll('.thief-mount').forEach(el => {
-    el.innerHTML = THIEF_SVG;
+    const target = el.querySelector('.thief-icon') || el;
+    target.innerHTML = THIEF_SVG;
   });
 
   // Mobile nav toggle
