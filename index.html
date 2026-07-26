@@ -27,10 +27,36 @@
   <div class="quest-bg" aria-hidden="true">
     <canvas id="quest-canvas"></canvas>
     <div class="quest-grid"></div>
-    <div class="quest-scan"></div>
-    <div class="quest-orb" style="top:-8%; left:8%;"></div>
-    <div class="quest-orb two" style="bottom:-12%; right:4%;"></div>
-    <div class="quest-orb three" style="top:35%; right:28%;"></div>
+    <div class="quest-radar"></div>
+    <svg class="quest-circuits" viewBox="0 0 800 460" preserveAspectRatio="none">
+      <defs>
+        <filter id="packet-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <path id="circuit-a" d="M 30 380 L 30 260 L 150 260 L 150 120 L 340 120 L 340 40" fill="none" stroke="var(--coffee-mid)" stroke-width="1.4" opacity="0.32"/>
+      <circle r="2.6" fill="var(--amber)" filter="url(#packet-glow)">
+        <animateMotion dur="5.5s" repeatCount="indefinite" begin="0s">
+          <mpath href="#circuit-a"/>
+        </animateMotion>
+      </circle>
+
+      <path id="circuit-b" d="M 770 60 L 770 190 L 610 190 L 610 300 L 470 300 L 470 400" fill="none" stroke="var(--coffee-mid)" stroke-width="1.4" opacity="0.32"/>
+      <circle r="2.6" fill="var(--amber)" filter="url(#packet-glow)">
+        <animateMotion dur="6.8s" repeatCount="indefinite" begin="1.4s">
+          <mpath href="#circuit-b"/>
+        </animateMotion>
+      </circle>
+
+      <path id="circuit-c" d="M 20 40 L 130 40 L 130 140 L 250 140 L 250 30" fill="none" stroke="var(--coffee-mid)" stroke-width="1.4" opacity="0.26"/>
+      <circle r="2.2" fill="var(--amber-soft)" filter="url(#packet-glow)">
+        <animateMotion dur="4.3s" repeatCount="indefinite" begin="0.6s">
+          <mpath href="#circuit-c"/>
+        </animateMotion>
+      </circle>
+    </svg>
   </div>
   <div class="hud-status" aria-hidden="true"><span class="pulse-dot"></span> Monitoring — Live</div>
   <div class="quest-reticle" id="quest-reticle" aria-hidden="true">
@@ -44,7 +70,6 @@
   <div class="wrap">
     <div class="hero-inner">
       <span class="eyebrow">Case File — Open</span>
-      <div class="hero-name">Teja Sree Goli</div>
       <h1>Identity &amp; Access Management, moving toward securing AI&nbsp;agents.</h1>
       <p class="lede">I work in identity and access — the systems that decide who, and increasingly <em>what</em>, gets in. Right now that means IAM in fintech. Where it's heading is authentication and authorization for autonomous AI agents: the next generation of the same problem.</p>
       <div class="hero-links">
@@ -55,7 +80,7 @@
     </div>
     <div class="thief-mount" aria-hidden="true">
       <div class="thief-icon"></div>
-      <span class="thief-quip">Not today, thief.</span>
+      <span class="thief-quip">Hello, Intruder.</span>
     </div>
   </div>
 </header>
