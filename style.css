@@ -513,6 +513,8 @@ p { color: var(--coffee); }
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 34%, rgba(0,0,0,0.55) 50%, black 68%);
+          mask-image: linear-gradient(to right, transparent 0%, transparent 34%, rgba(0,0,0,0.55) 50%, black 68%);
 }
 
 #quest-canvas {
@@ -541,16 +543,16 @@ p { color: var(--coffee); }
 
 .quest-radar {
   position: absolute;
-  width: 560px;
-  height: 560px;
-  top: -160px;
-  right: -140px;
+  width: 460px;
+  height: 460px;
+  top: -130px;
+  right: -100px;
   border-radius: 50%;
   background: conic-gradient(from 0deg, transparent 0deg, rgba(185,120,43,0.32) 16deg, rgba(185,120,43,0.08) 34deg, transparent 52deg);
   animation: radar-spin 6.5s linear infinite;
 }
 @keyframes radar-spin { to { transform: rotate(360deg); } }
-@media (max-width: 640px) { .quest-radar { width: 380px; height: 380px; top: -100px; right: -110px; } }
+@media (max-width: 640px) { .quest-radar { width: 320px; height: 320px; top: -90px; right: -90px; } }
 
 .quest-circuits {
   position: absolute;
