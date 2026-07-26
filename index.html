@@ -25,18 +25,15 @@
 
 <header class="hero">
   <div class="quest-bg" aria-hidden="true">
+    <canvas id="quest-canvas"></canvas>
     <div class="quest-grid"></div>
     <div class="quest-scan"></div>
-    <div class="quest-particle" style="top:22%; left:12%; animation-delay:0s;"></div>
-    <div class="quest-particle" style="top:38%; left:34%; animation-delay:1.5s;"></div>
-    <div class="quest-particle" style="top:18%; left:58%; animation-delay:3s;"></div>
-    <div class="quest-particle" style="top:52%; left:74%; animation-delay:0.8s;"></div>
-    <div class="quest-particle" style="top:64%; left:20%; animation-delay:4s;"></div>
   </div>
   <div class="hud-status" aria-hidden="true"><span class="pulse-dot"></span> Monitoring — Live</div>
   <div class="wrap">
     <div class="hero-inner">
       <span class="eyebrow">Case File — Open</span>
+      <div class="hero-name">Teja Sree Goli</div>
       <h1>Identity &amp; Access Management, moving toward securing AI&nbsp;agents.</h1>
       <p class="lede">I work in identity and access — the systems that decide who, and increasingly <em>what</em>, gets in. Right now that means IAM in fintech. Where it's heading is authentication and authorization for autonomous AI agents: the next generation of the same problem.</p>
       <div class="hero-links">
@@ -45,7 +42,10 @@
         <a class="pill-link" href="work.html">See the work</a>
       </div>
     </div>
-    <div class="thief-mount" aria-hidden="true"></div>
+    <div class="thief-mount" aria-hidden="true">
+      <div class="thief-icon"></div>
+      <span class="thief-quip">Not today, thief.</span>
+    </div>
   </div>
 </header>
 
@@ -61,28 +61,40 @@
       <span class="file-tag">01 — Dossier</span>
       <h3>About</h3>
       <p>How a person ends up watching for intruders for a living. A timeline, scrolled — with company.</p>
-      <div class="thief-mount" aria-hidden="true"></div>
+      <div class="thief-mount" aria-hidden="true">
+        <div class="thief-icon"></div>
+        <span class="thief-quip">Even I have a backstory.</span>
+      </div>
     </a>
 
     <a class="nav-card" href="work.html">
       <span class="file-tag">02 — Track record</span>
       <h3>Work</h3>
       <p>Roles, projects, and the systems I've been trusted to guard. Someone's always watching the gate.</p>
-      <div class="thief-mount" aria-hidden="true"></div>
+      <div class="thief-mount" aria-hidden="true">
+        <div class="thief-icon"></div>
+        <span class="thief-quip">Every role, someone's watching.</span>
+      </div>
     </a>
 
     <a class="nav-card" href="blog.html">
       <span class="file-tag">03 — Field notes</span>
       <h3>Blog</h3>
       <p>Technical writing on identity, Zero Trust, and AI agent security — plus the occasional non-technical note.</p>
-      <div class="thief-mount" aria-hidden="true"></div>
+      <div class="thief-mount" aria-hidden="true">
+        <div class="thief-icon"></div>
+        <span class="thief-quip">Reading up before my next move.</span>
+      </div>
     </a>
 
     <a class="nav-card" href="hobbies.html">
       <span class="file-tag">04 — Off the clock</span>
       <h3>Personal</h3>
       <p>Photography, painting, and the parts of life that have nothing to do with access control.</p>
-      <div class="thief-mount" aria-hidden="true"></div>
+      <div class="thief-mount" aria-hidden="true">
+        <div class="thief-icon"></div>
+        <span class="thief-quip">Off duty. Mostly.</span>
+      </div>
     </a>
 
     </div>
