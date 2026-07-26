@@ -539,13 +539,24 @@ p { color: var(--coffee); }
 @keyframes grid-drift { from { background-position: 0 0; } to { background-position: 0 46px; } }
 @keyframes grid-breathe { 0%, 100% { opacity: 0.24; } 50% { opacity: 0.36; } }
 
-.quest-scan {
+.quest-radar {
   position: absolute;
-  left: 0; right: 0;
-  height: 140px;
-  top: -20%;
-  background: linear-gradient(to bottom, transparent, rgba(185, 120, 43, 0.15), transparent);
-  animation: scan-sweep 8s ease-in-out infinite;
+  width: 560px;
+  height: 560px;
+  top: -160px;
+  right: -140px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(185,120,43,0.32) 16deg, rgba(185,120,43,0.08) 34deg, transparent 52deg);
+  animation: radar-spin 6.5s linear infinite;
+}
+@keyframes radar-spin { to { transform: rotate(360deg); } }
+@media (max-width: 640px) { .quest-radar { width: 380px; height: 380px; top: -100px; right: -110px; } }
+
+.quest-circuits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .quest-reticle {
@@ -563,7 +574,6 @@ p { color: var(--coffee); }
 .quest-reticle.active { opacity: 0.85; transform: scale(1); }
 .quest-reticle svg { width: 100%; height: 100%; }
 @media (max-width: 640px) { .quest-reticle { display: none; } }
-@keyframes scan-sweep { 0% { top: -15%; } 100% { top: 105%; } }
 
 .quest-particle {
   position: absolute;
@@ -577,35 +587,6 @@ p { color: var(--coffee); }
   0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
   50% { transform: translateY(-24px) translateX(10px); opacity: 0.65; }
 }
-
-.quest-orb {
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(185,120,43,0.22), transparent 70%);
-  opacity: 0.55;
-  animation: orb-drift 22s ease-in-out infinite;
-}
-.quest-orb.two {
-  background: radial-gradient(circle, rgba(74,51,36,0.16), transparent 70%);
-  animation-duration: 27s;
-  animation-direction: reverse;
-}
-.quest-orb.three {
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, rgba(221,168,91,0.28), transparent 70%);
-  animation-duration: 14s;
-}
-@keyframes orb-drift {
-  0%   { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(36px, -26px) scale(1.08); }
-  50%  { transform: translate(-18px, 18px) scale(0.94); }
-  75%  { transform: translate(26px, 28px) scale(1.05); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-@media (max-width: 640px) { .quest-orb { opacity: 0.3; } }
 
 .hud-status {
   position: absolute;
@@ -718,4 +699,6 @@ p { color: var(--coffee); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
+  .quest-circuits circle { display: none; }
+  .quest-radar { display: none; }
 }
