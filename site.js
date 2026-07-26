@@ -36,6 +36,16 @@ function initQuestCanvas() {
     vy: (Math.random() - 0.5) * 0.28,
   }));
 
+  let flash = null;
+  function scheduleFlash() {
+    if (reduceMotion) return;
+    setTimeout(() => {
+      if (nodes.length) flash = { index: Math.floor(Math.random() * nodes.length), start: performance.now() };
+      scheduleFlash();
+    }, 2200 + Math.random() * 2400);
+  }
+  scheduleFlash();
+
   const stage = canvas.parentElement.closest('.hero') || canvas.parentElement;
   stage.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -82,17 +92,93 @@ function initQuestCanvas() {
     nodes.forEach((n) => {
       ctx.fillStyle = 'rgba(74,51,36,0.55)';
       ctx.beginPath();
-      ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+      ctx.arc(n.x, n.y, 1.8, 0, Math.PI * 2);
       ctx.fill();
     });
+
+    if (flash) {
+      const elapsed = performance.now() - flash.start;
+      const dur = 950;
+      if (elapsed < dur && nodes[flash.index]) {
+        const n = nodes[flash.index];
+        const t = elapsed / dur;
+        const r = 4 + t * 24;
+        ctx.strokeStyle = `rgba(185,120,43,${0.6 * (1 - t)})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = `rgba(185,120,43,${0.9 * (1 - t)})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 2.6, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        flash = null;
+      }
+    }
 
     if (!reduceMotion) requestAnimationFrame(frame);
   }
   frame();
 }
 
+const LOG_TEMPLATES = [
+  'ACCESS_REQUEST node-{n} :: verifying',
+  'AUTH_TOKEN validated :: session ok',
+  'ANOMALY flagged :: node-{n}',
+  'ACCESS_DENIED :: unauthorized attempt',
+  'SESSION rotated :: node-{n}',
+  'SCAN complete :: 0 breaches',
+  'IDENTITY verified :: node-{n}',
+  'WATCHING :: perimeter clear',
+];
+function randomLogLine() {
+  const t = LOG_TEMPLATES[Math.floor(Math.random() * LOG_TEMPLATES.length)];
+  return t.replace('{n}', String(Math.floor(Math.random() * 90 + 10)).padStart(2, '0'));
+}
+
+function initHudConsole() {
+  const el = document.getElementById('hud-console');
+  if (!el) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lines = [randomLogLine(), randomLogLine(), randomLogLine()];
+  const render = () => {
+    el.innerHTML = lines.map((l, i) => `<div class="line${i === lines.length - 1 ? ' latest' : ''}">${l}</div>`).join('');
+  };
+  render();
+  if (!reduceMotion) {
+    setInterval(() => {
+      lines.push(randomLogLine());
+      if (lines.length > 4) lines.shift();
+      render();
+    }, 2200);
+  }
+}
+
+function initReticle() {
+  const el = document.getElementById('quest-reticle');
+  if (!el) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+  const stage = el.parentElement;
+
+  function place() {
+    const rect = stage.getBoundingClientRect();
+    const x = rect.width * (0.55 + Math.random() * 0.35);
+    const y = rect.height * (0.12 + Math.random() * 0.7);
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+    el.classList.add('active');
+    setTimeout(() => el.classList.remove('active'), 1100);
+    setTimeout(place, 2600 + Math.random() * 2600);
+  }
+  setTimeout(place, 1800);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initQuestCanvas();
+  initHudConsole();
+  initReticle();
 
   // Inject thief SVG into every mount point (supports a nested .thief-icon target)
   document.querySelectorAll('.thief-mount').forEach(el => {
