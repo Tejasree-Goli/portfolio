@@ -534,9 +534,10 @@ p { color: var(--coffee); }
   transform-origin: bottom center;
   -webkit-mask-image: linear-gradient(to top, black 0%, transparent 68%);
           mask-image: linear-gradient(to top, black 0%, transparent 68%);
-  animation: grid-drift 16s linear infinite;
+  animation: grid-drift 16s linear infinite, grid-breathe 6s ease-in-out infinite;
 }
 @keyframes grid-drift { from { background-position: 0 0; } to { background-position: 0 46px; } }
+@keyframes grid-breathe { 0%, 100% { opacity: 0.24; } 50% { opacity: 0.36; } }
 
 .quest-scan {
   position: absolute;
@@ -546,27 +547,6 @@ p { color: var(--coffee); }
   background: linear-gradient(to bottom, transparent, rgba(185, 120, 43, 0.15), transparent);
   animation: scan-sweep 8s ease-in-out infinite;
 }
-
-.hud-console {
-  position: absolute;
-  left: 6%;
-  bottom: 24px;
-  z-index: 2;
-  width: 240px;
-  max-width: 44vw;
-  background: rgba(250, 246, 236, 0.62);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 13px;
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  line-height: 1.6;
-  color: var(--coffee-mid);
-  backdrop-filter: blur(3px);
-}
-.hud-console .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.65; }
-.hud-console .line.latest { color: var(--amber); opacity: 1; }
-@media (max-width: 640px) { .hud-console { display: none; } }
 
 .quest-reticle {
   position: absolute;
@@ -597,6 +577,35 @@ p { color: var(--coffee); }
   0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
   50% { transform: translateY(-24px) translateX(10px); opacity: 0.65; }
 }
+
+.quest-orb {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(185,120,43,0.22), transparent 70%);
+  opacity: 0.55;
+  animation: orb-drift 22s ease-in-out infinite;
+}
+.quest-orb.two {
+  background: radial-gradient(circle, rgba(74,51,36,0.16), transparent 70%);
+  animation-duration: 27s;
+  animation-direction: reverse;
+}
+.quest-orb.three {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(221,168,91,0.28), transparent 70%);
+  animation-duration: 14s;
+}
+@keyframes orb-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(36px, -26px) scale(1.08); }
+  50%  { transform: translate(-18px, 18px) scale(0.94); }
+  75%  { transform: translate(26px, 28px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@media (max-width: 640px) { .quest-orb { opacity: 0.3; } }
 
 .hud-status {
   position: absolute;
@@ -667,12 +676,12 @@ p { color: var(--coffee); }
   .about-layout { grid-template-columns: 1fr 300px; gap: 24px; }
 }
 
-.about-photo { position: relative; }
+.about-photo { position: relative; margin-top: 30px; }
 @media (min-width: 860px) {
-  .about-photo { position: sticky; top: 110px; }
+  .about-photo { position: sticky; top: 90px; }
 }
 @media (max-width: 859px) {
-  .about-photo { max-width: 240px; margin: 8px auto 0; }
+  .about-photo { max-width: 240px; margin: 24px auto 0; }
 }
 
 .about-photo .frame {
