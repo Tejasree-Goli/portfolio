@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teja Sree Goli — Identity & Access</title>
-<meta name="description" content="Teja Sree Goli — Identity & Access Management, moving toward securing AI agents and non-human identities.">
+<title>Identity & Access</title>
+<meta name="description" content="Identity & Access Management, moving toward securing AI agents and non-human identities.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,9 +28,11 @@
     <canvas id="quest-canvas"></canvas>
     <div class="quest-grid"></div>
     <div class="quest-scan"></div>
+    <div class="quest-orb" style="top:-8%; left:8%;"></div>
+    <div class="quest-orb two" style="bottom:-12%; right:4%;"></div>
+    <div class="quest-orb three" style="top:35%; right:28%;"></div>
   </div>
   <div class="hud-status" aria-hidden="true"><span class="pulse-dot"></span> Monitoring — Live</div>
-  <div class="hud-console" id="hud-console" aria-hidden="true"></div>
   <div class="quest-reticle" id="quest-reticle" aria-hidden="true">
     <svg viewBox="0 0 40 40">
       <path d="M2 12 V2 H12" fill="none" stroke="var(--amber)" stroke-width="2"/>
@@ -42,6 +44,7 @@
   <div class="wrap">
     <div class="hero-inner">
       <span class="eyebrow">Case File — Open</span>
+      <div class="hero-name">Teja Sree Goli</div>
       <h1>Identity &amp; Access Management, moving toward securing AI&nbsp;agents.</h1>
       <p class="lede">I work in identity and access — the systems that decide who, and increasingly <em>what</em>, gets in. Right now that means IAM in fintech. Where it's heading is authentication and authorization for autonomous AI agents: the next generation of the same problem.</p>
       <div class="hero-links">
